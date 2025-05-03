@@ -6,7 +6,6 @@
     "config": {
       "maxLambdaSize": "50mb",
       "suppressLoaders": true,
-      "externalNodeModules": ["numpy", "scikit-learn", "joblib"],
       "includeFiles": ["model.joblib", "le_*.npy", "meal_ideas.json"],
       "runtime": "python3.9"
     }
