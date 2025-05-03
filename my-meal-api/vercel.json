@@ -1,22 +1,33 @@
 {
-{
   "version": 2,
-  "builds": [{
-    "src": "api/index.py",
-    "use": "@vercel/python",
-    "config": {
-      "maxLambdaSize": "50mb",
-      "suppressLoaders": true,
-      "externalNodeModules": ["numpy", "scikit-learn"],
-      "includeFiles": ["*.npy", "*.json", "*.joblib"]
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "suppressLoaders": true,
+        "externalNodeModules": ["numpy", "scikit-learn", "joblib"],
+        "includeFiles": ["*.npy", "*.json", "*.joblib"],
+        "runtime": "python3.9"
+      }
     }
-  }],
-  "routes": [{
-    "src": "/(.*)",
-    "dest": "api/index.py"
-  }],
+  ],
+  "routes": [
+    {
+      "src": "/predict",
+      "dest": "api/index.py",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/health",
+      "dest": "api/index.py",
+      "methods": ["GET"]
+    }
+  ],
   "env": {
     "PYTHON_ENABLE_WASM": "1",
-    "PYTHON_USE_PYPI": "false"
+    "PYTHON_USE_PYPI": "false",
+    "VERCEL_FORCE_NO_BUILD_CACHE": "1"
   }
 }
