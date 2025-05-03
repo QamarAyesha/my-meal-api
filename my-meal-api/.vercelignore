@@ -41,3 +41,7 @@ Thumbs.db
 # Exceptions (force include these)
 !lib/encoders.js
 !api/predict.js
+
+__pycache__
+*.log
+tests/
