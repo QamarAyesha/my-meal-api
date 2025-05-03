@@ -7,11 +7,13 @@
       "maxLambdaSize": "50mb",
       "suppressLoaders": true,
       "externalNodeModules": ["numpy", "scikit-learn", "joblib"],
-      "includeFiles": ["model.joblib", "le_*.npy", "meal_ideas.json"]
+      "includeFiles": ["model.joblib", "le_*.npy", "meal_ideas.json"],
+      "runtime": "python3.9"
     }
   }],
   "env": {
-    "VERCEL_FORCE_NO_BUILD_CACHE": "1", 
-    "PYTHON_ENABLE_WASM": "1"
+    "PYTHON_ENABLE_WASM": "1",
+    "PYTHON_USE_PYPI": "false",
+    "VERCEL_FORCE_NO_BUILD_CACHE": "1"
   }
 }
