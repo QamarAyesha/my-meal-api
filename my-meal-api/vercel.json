@@ -1,27 +1,19 @@
+# vercel.json (CRITICAL CONFIG)
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb",
-        "suppressLoaders": true,
-        "runtime": "python3.9"
-      }
+  "builds": [{
+    "src": "api/index.py",
+    "use": "@vercel/python",
+    "config": {
+      "maxLambdaSize": "50mb",
+      "suppressLoaders": true,
+      "includeFiles": ["*.npy", "*.json", "*.joblib"]
     }
-  ],
-  "routes": [
-    {
-      "src": "/.*",
-      "dest": "api/index.py",
-      "methods": ["GET", "POST"],
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "no-cache"
-      }
-    }
-  ],
+  }],
+  "routes": [{
+    "src": "/(.*)",
+    "dest": "api/index.py"
+  }],
   "env": {
     "PYTHON_ENABLE_WASM": "1"
   }
