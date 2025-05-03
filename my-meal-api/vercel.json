@@ -1,11 +1,22 @@
 {
+{
+  "version": 2,
   "builds": [{
     "src": "api/index.py",
     "use": "@vercel/python",
     "config": {
       "maxLambdaSize": "50mb",
       "suppressLoaders": true,
-      "externalNodeModules": ["numpy"]  
+      "externalNodeModules": ["numpy", "scikit-learn"],
+      "includeFiles": ["*.npy", "*.json", "*.joblib"]
     }
-  }]
+  }],
+  "routes": [{
+    "src": "/(.*)",
+    "dest": "api/index.py"
+  }],
+  "env": {
+    "PYTHON_ENABLE_WASM": "1",
+    "PYTHON_USE_PYPI": "false"
+  }
 }
