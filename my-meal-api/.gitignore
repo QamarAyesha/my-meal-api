@@ -175,7 +175,12 @@ cython_debug/
 
 
 # === Custom for FastAPI Meal Recommender ===
-
+# Model assets (externalized via Google Drive)
+ models/
+ *.pkl
+ *.joblib
+ *.json
+ 
 
 
 # Python cache
