@@ -1,9 +1,43 @@
+# Model files (hosted externally)
 models/
+*.h5
+*.tflite
 *.pkl
 *.joblib
-*.json
-__pycache__/
-*.ipynb
+*.pb
+
+# Training data
 *.csv
 *.tsv
+*.parquet
+
+# Notebooks & IDE files
+*.ipynb
+.ipynb_checkpoints/
+.idea/
+.vscode/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Archives & builds
 *.zip
+*.tar.gz
+*.egg
+dist/
+build/
+
+# Environment files
+.env
+.env.*
+secrets/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Exceptions (force include these)
+!lib/encoders.js
+!api/predict.js
