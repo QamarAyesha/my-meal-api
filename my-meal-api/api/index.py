@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Optional
 import joblib
 import json
 import requests
@@ -12,7 +11,6 @@ app = FastAPI(
     version="1.0"
 )
 
-# Direct download links from Google Drive
 MODEL_URL = "https://drive.google.com/uc?export=download&id=1FUM93UEhrz1jgZeXJ0rs11SV0mpkH5--"
 ENCODERS_URL = "https://drive.google.com/uc?export=download&id=1d_WKKgWZMn_HmEsiFHWsifrRDwJxbuaZ"
 MEAL_IDEAS_URL = "https://drive.google.com/uc?export=download&id=1wdLlm82Lz9rzMCsiZLL9MtGn6WogqpJZ"
@@ -23,13 +21,20 @@ def fetch_file(url):
         raise RuntimeError(f"Failed to load from {url}")
     return response.content
 
-# Load assets once at startup
-try:
-    model = joblib.load(io.BytesIO(fetch_file(MODEL_URL)))
-    encoders = joblib.load(io.BytesIO(fetch_file(ENCODERS_URL)))
-    meal_ideas = json.loads(fetch_file(MEAL_IDEAS_URL).decode())
-except Exception as e:
-    raise RuntimeError(f"Failed to load model or data from URL: {str(e)}")
+# Global variables for the loaded model and data
+model = None
+encoders = None
+meal_ideas = None
+
+def load_assets():
+    global model, encoders, meal_ideas
+    if model is None or encoders is None or meal_ideas is None:
+        try:
+            model = joblib.load(io.BytesIO(fetch_file(MODEL_URL)))
+            encoders = joblib.load(io.BytesIO(fetch_file(ENCODERS_URL)))
+            meal_ideas = json.loads(fetch_file(MEAL_IDEAS_URL).decode())
+        except Exception as e:
+            raise RuntimeError(f"Failed to load model or data from URL: {str(e)}")
 
 # Request body schema
 class UserInput(BaseModel):
@@ -47,6 +52,7 @@ def home():
 
 @app.post("/predict")
 def predict(user_input: UserInput):
+    load_assets()  # Lazy load model and data only when needed
     try:
         # Encode features
         region_enc = encoders['le_region'].transform([user_input.region])[0]
