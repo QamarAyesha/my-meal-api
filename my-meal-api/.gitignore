@@ -172,3 +172,21 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# === Custom for FastAPI Meal Recommender ===
+
+# Model assets (externalized via Google Drive)
+models/
+*.pkl
+*.joblib
+*.json
+
+# Python cache
+__pycache__/
+
+# Ignore build artifacts in deployment
+*.zip
+*.tar.gz
+*.csv
+*.tsv
