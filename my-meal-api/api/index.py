@@ -1,29 +1,23 @@
-# api/index.py
-from fastapi import FastAPI, HTTPException
-import os
-
-app = FastAPI(docs_url=None, redoc_url=None)
-
-# Lazy imports inside functions
-def predict(age: int, region: str, stage: str, health: str):
-    import joblib
-    import numpy as np
-    from sklearn.preprocessing import LabelEncoder
-    
-    # Load assets only when needed
-    assets = {
-        "model": joblib.load("model.joblib"),
-        "encoders": {
-            "health": LabelEncoder().fit(np.load("le_health_classes.npy")),
-            "plan": LabelEncoder().fit(np.load("le_plan_classes.npy")),
-            "region": LabelEncoder().fit(np.load("le_region_classes.npy")),
-            "stage": LabelEncoder().fit(np.load("le_stage_classes.npy"))
-        }
+{
+  "version": 2,
+  "builds": [{
+    "src": "api/index.py",
+    "use": "@vercel/python",
+    "config": {
+      "maxLambdaSize": "50mb",
+      "suppressLoaders": true,
+      "externalNodeModules": ["numpy", "scikit-learn", "joblib"],
+      "includeFiles": ["model.joblib", "le_*.npy", "meal_ideas.json"],
+      "runtime": "python3.9"
     }
-    
-    # Your prediction logic here
-    return {"plan": "High iron"}
-
-@app.post("/predict")
-async def predict_endpoint(age: int, region: str, stage: str, health: str):
-    return predict(age, region, stage, health)
+  }],
+  "functions": {
+    "api/**": {
+      "excludeFiles": "{__pycache__,tests,*.log,*.tmp}/**"
+    }
+  },
+  "env": {
+    "PYTHON_ENABLE_WASM": "1",
+    "PYTHON_USE_PYPI": "false"
+  }
+}
