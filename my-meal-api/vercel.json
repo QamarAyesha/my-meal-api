@@ -5,7 +5,7 @@
     "config": {
       "maxLambdaSize": "50mb",
       "suppressLoaders": true,
-      "externalNodeModules": ["numpy"]  # Prevents duplicate installation
+      "externalNodeModules": ["numpy"]  
     }
   }]
 }
