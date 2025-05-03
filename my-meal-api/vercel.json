@@ -1,38 +1,17 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb",
-        "suppressLoaders": true,
-        "externalNodeModules": ["numpy", "scikit-learn", "joblib"],
-        "includeFiles": ["*.npy", "*.json", "*.joblib"],
-        "runtime": "python3.9"
-      }
+  "builds": [{
+    "src": "api/index.py",
+    "use": "@vercel/python",
+    "config": {
+      "maxLambdaSize": "50mb",
+      "suppressLoaders": true,
+      "externalNodeModules": ["numpy", "scikit-learn", "joblib"],
+      "includeFiles": ["model.joblib", "le_*.npy", "meal_ideas.json"]
     }
-  ],
-  "functions": {
-    "api/**": {
-      "excludeFiles": "{.cache,__pycache__,tests,*.log}/**"
-    }
-  },
-  "routes": [
-    {
-      "src": "/predict",
-      "dest": "api/index.py",
-      "methods": ["POST"]
-    },
-    {
-      "src": "/health",
-      "dest": "api/index.py",
-      "methods": ["GET"]
-    }
-  ],
+  }],
   "env": {
-    "PYTHON_ENABLE_WASM": "1",
-    "PYTHON_USE_PYPI": "false",
-    "VERCEL_FORCE_NO_BUILD_CACHE": "1"
+    "VERCEL_FORCE_NO_BUILD_CACHE": "1",  // Disables cache
+    "PYTHON_ENABLE_WASM": "1"
   }
 }
