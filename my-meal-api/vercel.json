@@ -13,6 +13,11 @@
       }
     }
   ],
+  "functions": {
+    "api/**": {
+      "excludeFiles": "{.cache,__pycache__,tests,*.log}/**"
+    }
+  },
   "routes": [
     {
       "src": "/predict",
