@@ -11,7 +11,7 @@
     }
   }],
   "env": {
-    "VERCEL_FORCE_NO_BUILD_CACHE": "1",  // Disables cache
+    "VERCEL_FORCE_NO_BUILD_CACHE": "1", 
     "PYTHON_ENABLE_WASM": "1"
   }
 }
