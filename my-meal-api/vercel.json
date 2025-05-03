@@ -1,4 +1,3 @@
-# vercel.json (CRITICAL CONFIG)
 {
   "version": 2,
   "builds": [{
