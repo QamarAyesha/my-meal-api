@@ -2,22 +2,32 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.py",
-      "use": "@vercel/python",
+      "src": "api/predict.js",
+      "use": "@vercel/edge",
       "config": {
-        "maxLambdaSize": "50mb",
-        "includeFiles": [
-          "*.npy",
-          "*.json"
-        ]
+        "maxDuration": 10,  // Free tier limit
+        "memory": 1024      // 1GB RAM
       }
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "api/index.py",
-      "methods": ["GET", "POST"]
+      "src": "/api/predict",
+      "dest": "/api/predict",
+      "headers": {
+        "Cache-Control": "public, s-maxage=3600",
+        "Access-Control-Allow-Origin": "*"
+      }
+    },
+    {
+      "src": "/model-stats",
+      "dest": "https://your-github.io/model-host/info.json",  // External model metadata
+      "headers": {
+        "Cache-Control": "public, max-age=86400"
+      }
     }
-  ]
+  ],
+  "env": {
+    "TFJS_BACKEND": "cpu"  // Force CPU backend to save memory
+  }
 }
