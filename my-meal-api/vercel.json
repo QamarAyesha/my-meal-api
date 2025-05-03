@@ -5,8 +5,8 @@
       "src": "api/predict.js",
       "use": "@vercel/edge",
       "config": {
-        "maxDuration": 10,  // Free tier limit
-        "memory": 1024      // 1GB RAM
+        "maxDuration": 10,
+        "memory": 1024
       }
     }
   ],
@@ -21,13 +21,13 @@
     },
     {
       "src": "/model-stats",
-      "dest": "https://your-github.io/model-host/info.json",  // External model metadata
+      "dest": "https://your-github.io/model-host/info.json",
       "headers": {
         "Cache-Control": "public, max-age=86400"
       }
     }
   ],
   "env": {
-    "TFJS_BACKEND": "cpu"  // Force CPU backend to save memory
+    "TFJS_BACKEND": "cpu"
   }
 }
